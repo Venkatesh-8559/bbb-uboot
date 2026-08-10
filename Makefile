@@ -3,7 +3,7 @@
 VERSION = 2022
 PATCHLEVEL = 04
 SUBLEVEL =
-EXTRAVERSION = km-bbb-uboot
+EXTRAVERSION = km-bbb-uboot-venkatesh
 NAME =
 
 # *DOCUMENTATION*
