@@ -22,6 +22,14 @@
 #include "../common/board_detect.h"
 #include "board.h"
 
+static struct module_pin_mux gpio_led_buzzer[] = {
+{OFFSET(lcd_data14), (MODE(7))}, // 10 user LED
+{OFFSET(lcd_data13),(MODE(7))}, //9 user buzzer 
+{OFFSET(lcd_data15), (MODE(7))}, // GPIO0_11 -> Enter switch
+{-1}
+};
+
+
 static struct module_pin_mux uart0_pin_mux[] = {
 	{OFFSET(uart0_rxd), (MODE(0) | PULLUP_EN | RXACTIVE)},	/* UART0_RXD */
 	{OFFSET(uart0_txd), (MODE(0) | PULLUDEN)},		/* UART0_TXD */
@@ -299,7 +307,10 @@ void enable_uart3_pin_mux(void)
 {
 	configure_module_pin_mux(uart3_pin_mux);
 }
-
+void km_bbb_mux(void)
+{
+    configure_module_pin_mux(gpio_led_buzzer);
+}
 void enable_uart4_pin_mux(void)
 {
 	configure_module_pin_mux(uart4_pin_mux);

@@ -151,6 +151,7 @@ static int probe_cape_eeprom(struct am335x_cape_eeprom_id *cape_header)
 
 	if (board_is_bone_lt()) {
 		puts("BeagleBone Black:\n");
+		km_bbb_mux();
 		base_dtb=BBB_BASE_DTB;
 		virtual_emmc=BBB_EMMC;
 		virtual_video=BBB_TDA998X_AUDIO;
