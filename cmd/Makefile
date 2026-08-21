@@ -6,6 +6,7 @@
 ifndef CONFIG_SPL_BUILD
 # core command
 obj-y += boot.o
+obj-y += blink.o
 obj-$(CONFIG_CMD_BOOTM) += bootm.o
 obj-y += help.o
 obj-y += panic.o
