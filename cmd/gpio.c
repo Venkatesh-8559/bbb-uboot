@@ -14,6 +14,7 @@
 #include <malloc.h>
 #include <asm/gpio.h>
 #include <linux/err.h>
+#include<linux/delay.h>
 
 __weak int name_to_gpio(const char *name)
 {
@@ -25,6 +26,7 @@ enum gpio_cmd {
 	GPIOC_SET,
 	GPIOC_CLEAR,
 	GPIOC_TOGGLE,
+	GPIOC_BLINK,
 };
 
 #if defined(CONFIG_DM_GPIO) && !defined(gpio_status)
@@ -174,6 +176,9 @@ static int do_gpio(struct cmd_tbl *cmdtp, int flag, int argc,
 	case 't':
 		sub_cmd = GPIOC_TOGGLE;
 		break;
+	case 'b':
+		sub_cmd = GPIOC_BLINK;
+		break;
 	default:
 		goto show_usage;
 	}
@@ -214,6 +219,24 @@ static int do_gpio(struct cmd_tbl *cmdtp, int flag, int argc,
 			value = 1;
 			break;
 		case GPIOC_CLEAR:
+			value = 0;
+			break;
+		case GPIOC_BLINK:
+			gpio_direction_output(gpio, 0);
+
+			printf("Blinking GPIO %d every 100 ms ...\n",gpio);
+			printf("press ctrl+c to stop...\n");
+
+			while(!ctrlc())
+			{
+				gpio_set_value(gpio, 1);
+				udelay(100000);
+				gpio_set_value(gpio,0);
+				udelay(100000);
+			}
+			gpio_set_value(gpio,0);
+			printf("\nGPIO Blink stopped.\n");
+
 			value = 0;
 			break;
 		case GPIOC_TOGGLE:
@@ -263,8 +286,8 @@ err:
 	return CMD_RET_FAILURE;
 }
 
-U_BOOT_CMD(gpio, 4, 0, do_gpio,
+U_BOOT_CMD(gpio, 5, 0, do_gpio,
 	   "query and control gpio pins",
-	   "<input|set|clear|toggle> <pin>\n"
+	   "<input|set|clear|toggle|blink> <pin>\n"
 	   "    - input/set/clear/toggle the specified pin\n"
 	   "gpio status [-a] [<bank> | <pin>]  - show [all/claimed] GPIOs");
