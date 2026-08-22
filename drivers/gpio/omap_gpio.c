@@ -227,7 +227,7 @@ int gpio_free(unsigned gpio)
 static int omap_gpio_direction_input(struct udevice *dev, unsigned offset)
 {
 	struct gpio_bank *bank = dev_get_priv(dev);
-
+	printf("%s : %s : %d\n",__FILE__, __func__,__LINE__);
 	/* Configure GPIO direction as input. */
 	_set_gpio_direction(bank, offset, 1);
 
@@ -290,7 +290,7 @@ static int omap_gpio_probe(struct udevice *dev)
 	struct omap_gpio_plat *plat = dev_get_plat(dev);
 	struct gpio_dev_priv *uc_priv = dev_get_uclass_priv(dev);
 	char name[18], *str;
-
+	printf("%s : %s : %d\n",__FILE__,__func__,__LINE__);
 	sprintf(name, "gpio@%4x_", (unsigned int)plat->base);
 	str = strdup(name);
 	if (!str)

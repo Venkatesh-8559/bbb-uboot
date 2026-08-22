@@ -128,6 +128,7 @@ static int do_gpio(struct cmd_tbl *cmdtp, int flag, int argc,
 	int value;
 	const char *str_cmd, *str_gpio = NULL;
 	int ret;
+	printf("%s : %s : %d ",__FILE__, __func__,__LINE__);
 #ifdef CONFIG_DM_GPIO
 	bool all = false;
 #endif
